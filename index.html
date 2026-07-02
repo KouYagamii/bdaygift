@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Special Surprise! 🍊</title>
+    <style>
+        :root {
+            --primary-orange: #ff7a00;
+            --soft-orange: #ffaa56;
+            --cream: #fff5eb;
+            --leaf-green: #4caf50;
+            --dark-citrus: #d45d00;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--cream);
+            color: #333;
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        /* 3 Sections Wide now! */
+        .slider-wrapper {
+            display: flex;
+            width: 300vw; 
+            height: 100vh;
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .view-section {
+            width: 100vw;
+            height: 100vh;
+            display: flex;         
+            justify-content: center; 
+            align-items: center;     
+            padding: 2rem;
+            position: relative;
+        }
+
+        /* Styling for the boxes */
+        .box-card {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 10px 30px rgba(255, 122, 0, 0.11);
+            border: 2px solid #ffe6cc;
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+            z-index: 2;
+        }
+
+        h2 {
+            font-size: 2rem;
+            color: #444;
+            margin-bottom: 1.5rem;
+            line-height: 1.4;
+        }
+
+        /* Game Canvas Area */
+        #game-container {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(to bottom, #fff9f2, #fff0e0);
+            border-radius: 15px;
+            position: relative;
+            overflow: hidden;
+            border: 2px dashed var(--soft-orange);
+            margin-bottom: 1.5rem;
+            cursor: none; /* Hide mouse cursor inside the game area */
+        }
+
+        #basket {
+            width: 60px;
+            height: 40px;
+            font-size: 2.5rem;
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            user-select: none;
+            pointer-events: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .falling-orange {
+            font-size: 2.2rem;
+            position: absolute;
+            top: -50px;
+            user-select: none;
+            pointer-events: none;
+        }
+
+        .score-board {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--dark-citrus);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Final Card Aesthetics */
+        header h1 {
+            font-size: 2.8rem;
+            color: var(--primary-orange);
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+
+        .orange-icon {
+            font-size: 4.5rem;
+            animation: float 4s ease-in-out infinite;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(10deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+
+        p {
+            font-size: 1.15rem;
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Buttons */
+        .btn {
+            background-color: var(--primary-orange);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(255, 122, 0, 0.3);
+            margin-top: 1rem;
+        }
+
+        .btn:hover {
+            background-color: var(--dark-citrus);
+            transform: scale(1.05);
+        }
+
+        .btn:disabled {
+            background-color: #ccc;
+            box-shadow: none;
+            cursor: not-allowed;
+        }
+
+        /* Slide Classes */
+        .slide-to-game { transform: translateX(-100vw); }
+        .slide-to-card { transform: translateX(-200vw); }
+    </style>
+</head>
+<body>
+
+    <div class="slider-wrapper" id="mainSlider">
+        
+        <!-- PAGE 1: The Intro -->
+        <section class="view-section">
+            <div class="box-card">
+                <h2>Hi there,<br>Today seems to be your day isn't it? This is nothing too special but I hope you like it.</h2>
+                <button class="btn" onclick="goToGame()">Click here 🍊</button>
+            </div>
+        </section>
+
+        <!-- PAGE 2: The Orange Catching Game -->
+        <section class="view-section">
+            <div class="box-card">
+                <h2>Catch 5 Oranges to unlock your message!</h2>
+                <div class="score-board">Oranges Caught: <span id="score">0</span> / 5</div>
+                
+                <div id="game-container">
+                    <div id="basket">🧺</div>
+                </div>
+
+                <button class="btn" id="nextPageBtn" disabled onclick="goToCard()">Reveal Message 🎁</button>
+            </div>
+        </section>
+
+        <!-- PAGE 3: The Main Birthday Card -->
+        <section class="view-section">
+            <div class="box-card">
+                <div class="orange-icon">🍊<span style="color:var(--leaf-green)">🍃</span></div>
+                <header>
+                    <h1>Have a Zesty Birthday!</h1>
+                    <div class="subtitle">Wishing you a year full of sunshine and sweetness</div>
+                </header>
+                <p>
+                    All things here were kinda rushed since I had little time, and honestly I was spending my weekends off trying to cram ideas for your birthday instead so.. I hope you like it even a little bit. 🧡
+                </p>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        const slider = document.getElementById('mainSlider');
+        const gameContainer = document.getElementById('game-container');
+        const basket = document.getElementById('basket');
+        const scoreDisplay = document.getElementById('score');
+        const nextPageBtn = document.getElementById('nextPageBtn');
+
+        let score = 0;
+        let gameActive = false;
+        let fallingInterval;
+        let orangeElement = null;
+        let orangeX = 0;
+        let orangeY = -50;
+        let orangeSpeed = 4;
+
+        // Slide navigation
+        function goToGame() {
+            slider.className = 'slider-wrapper slide-to-game';
+            startGame();
+        }
+
+        function goToCard() {
+            slider.className = 'slider-wrapper slide-to-card';
+            gameActive = false;
+            clearInterval(fallingInterval);
+        }
+
+        // Mouse/Touch controls for the basket
+        gameContainer.addEventListener('mousemove', (e) => {
+            const rect = gameContainer.getBoundingClientRect();
+            let relativeX = e.clientX - rect.left;
+            // Bound basket inside container
+            if (relativeX < 30) relativeX = 30;
+            if (relativeX > rect.width - 30) relativeX = rect.width - 30;
+            basket.style.left = relativeX + 'px';
+        });
+
+        gameContainer.addEventListener('touchmove', (e) => {
+            const rect = gameContainer.getBoundingClientRect();
+            let relativeX = e.touches[0].clientX - rect.left;
+            if (relativeX < 30) relativeX = 30;
+            if (relativeX > rect.width - 30) relativeX = rect.width - 30;
+            basket.style.left = relativeX + 'px';
+        });
+
+        // Game mechanics
+        function startGame() {
+            gameActive = true;
+            spawnOrange();
+            fallingInterval = setInterval(updateGame, 20);
+        }
+
+        function spawnOrange() {
+            if (!gameActive) return;
+            
+            if (orangeElement) orangeElement.remove();
+
+            orangeElement = document.createElement('div');
+            orangeElement.className = 'falling-orange';
+            orangeElement.innerText = '🍊';
+            
+            const containerWidth = gameContainer.clientWidth;
+            orangeX = Math.random() * (containerWidth - 40) + 10;
+            orangeY = -40;
+            
+            orangeElement.style.left = orangeX + 'px';
+            orangeElement.style.top = orangeY + 'px';
+            gameContainer.appendChild(orangeElement);
+        }
+
+        function updateGame() {
+            if (!gameActive || !orangeElement) return;
+
+            // Move orange down
+            orangeY += orangeSpeed;
+            orangeElement.style.top = orangeY + 'px';
+
+            const containerHeight = gameContainer.clientHeight;
+            const basketX = parseFloat(basket.style.left) || gameContainer.clientWidth / 2;
+
+            // Check if orange hits the bottom zone (where basket sits)
+            if (orangeY >= containerHeight - 50 && orangeY <= containerHeight - 20) {
+                // Collision detection between orange center and basket center
+                if (Math.abs(orangeX - (basketX - 15)) < 35) {
+                    score++;
+                    scoreDisplay.innerText = score;
+                    
+                    if (score >= 5) {
+                        endGame();
+                    } else {
+                        orangeSpeed += 0.5; // Make it slightly trickier
+                        spawnOrange();
+                    }
+                }
+            }
+
+            // Reset orange if it falls past basket
+            if (orangeY > containerHeight) {
+                spawnOrange();
+            }
+        }
+
+        function endGame() {
+            gameActive = false;
+            clearInterval(fallingInterval);
+            if (orangeElement) orangeElement.remove();
+            
+            // Success changes!
+            scoreDisplay.innerText = "5/5 Complete! 🎉";
+            nextPageBtn.removeAttribute('disabled');
+            nextPageBtn.style.background = 'var(--leaf-green)';
+            nextPageBtn.innerText = "Open Your Message 🎁";
+        }
+    </script>
+</body>
+</html>
