@@ -26,12 +26,13 @@
             overflow: hidden;
             height: 100vh;
             width: 100vw;
+            transition: background 1.5s ease;
         }
 
-        /* 3 Sections Wide now! */
+        /* 12 Sections Wide */
         .slider-wrapper {
             display: flex;
-            width: 300vw; 
+            width: 1200vw; 
             height: 100vh;
             transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
@@ -46,169 +47,387 @@
             position: relative;
         }
 
-        /* Styling for the boxes */
         .box-card {
             background: white;
             border-radius: 20px;
-            padding: 3rem;
+            padding: 2.5rem;
             box-shadow: 0 10px 30px rgba(255, 122, 0, 0.11);
             border: 2px solid #ffe6cc;
             max-width: 600px;
             width: 100%;
             text-align: center;
             z-index: 2;
+            transition: all 1.5s ease;
         }
 
         h2 {
-            font-size: 2rem;
+            font-size: 1.8rem;
             color: #444;
             margin-bottom: 1.5rem;
             line-height: 1.4;
         }
 
-        /* Game Canvas Area */
-        #game-container {
+        /* Fading Text Elements */
+        .fade-text-container {
+            height: 90px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .fading-text-style {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--dark-citrus);
+            transition: opacity 0.6s ease-in-out;
+            opacity: 0;
+        }
+
+        .hidden-reveal-btn {
+            opacity: 0;
+            transition: opacity 0.8s ease-in-out;
+            pointer-events: none;
+        }
+
+        /* Interactive Containers */
+        #game-container, #pop-container, .media-container {
             width: 100%;
-            height: 300px;
+            height: 280px;
             background: linear-gradient(to bottom, #fff9f2, #fff0e0);
             border-radius: 15px;
             position: relative;
             overflow: hidden;
             border: 2px dashed var(--soft-orange);
             margin-bottom: 1.5rem;
-            cursor: none; /* Hide mouse cursor inside the game area */
-        }
-
-        #basket {
-            width: 60px;
-            height: 40px;
-            font-size: 2.5rem;
-            position: absolute;
-            bottom: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            user-select: none;
-            pointer-events: none;
             display: flex;
             justify-content: center;
             align-items: center;
+            padding: 10px;
+            gap: 10px;
         }
 
-        .falling-orange {
-            font-size: 2.2rem;
-            position: absolute;
-            top: -50px;
-            user-select: none;
-            pointer-events: none;
+        .display-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 13px;
+            flex: 1;
         }
 
-        .score-board {
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: var(--dark-citrus);
-            margin-bottom: 0.5rem;
-        }
-
-        /* Final Card Aesthetics */
-        header h1 {
-            font-size: 2.8rem;
-            color: var(--primary-orange);
-            margin-bottom: 0.5rem;
-        }
-
-        .subtitle {
-            font-size: 1.3rem;
-            color: #666;
+        /* Scrollable Personal Note Box Layout */
+        .text-letter-box {
+            width: 100%;
+            height: 280px;
+            background: #fffcf7;
+            border-radius: 15px;
+            border: 2px dashed var(--soft-orange);
+            padding: 1.5rem;
+            overflow-y: auto;
+            text-align: left;
             margin-bottom: 1.5rem;
+            box-shadow: inset 0 2px 8px rgba(0,0,0,0.02);
         }
-
-        .orange-icon {
-            font-size: 4.5rem;
-            animation: float 4s ease-in-out infinite;
-            display: inline-block;
+        .text-letter-box p {
+            font-size: 1.05rem;
+            color: #444;
+            line-height: 1.7;
             margin-bottom: 1rem;
         }
 
+        #canvas-container {
+            width: 100%;
+            height: 260px;
+            margin-bottom: 1rem;
+        }
+        canvas {
+            width: 100%;
+            height: 100%;
+            background: #fff;
+            border-radius: 15px;
+            border: 2px dashed var(--soft-orange);
+            cursor: crosshair;
+            touch-action: none;
+        }
+
+        /* --- VIRTUAL CAKE STYLING --- */
+        .cake-container {
+            width: 100%;
+            height: 200px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            position: relative;
+            margin-bottom: 2rem;
+        }
+        .cake {
+            width: 160px;
+            height: 90px;
+            background: #fcd5ce;
+            border-radius: 10px 10px 0 0;
+            position: relative;
+            box-shadow: inset 0 10px 0 #ffb5a7, 0 4px 10px rgba(0,0,0,0.05);
+        }
+        .cake::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 20px;
+            background: #f8ad9d;
+            top: 25px;
+            left: 0;
+        }
+        .candle {
+            width: 10px;
+            height: 45px;
+            background: repeating-linear-gradient(45deg, #fff, #fff 5px, var(--primary-orange) 5px, var(--primary-orange) 10px);
+            position: absolute;
+            top: -45px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 3px 3px 0 0;
+        }
+        .flame {
+            width: 16px;
+            height: 24px;
+            background: #ffb703;
+            border-radius: 50% 50% 20% 20%;
+            position: absolute;
+            top: -28px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: flicker 0.6s infinite alternate;
+            box-shadow: 0 0 15px rgba(255, 183, 3, 0.8);
+        }
+        @keyframes flicker {
+            0% { transform: translateX(-50%) scale(1); }
+            100% { transform: translateX(-48%) scale(1.1) skewX(3deg); }
+        }
+
+        /* --- STARRY SKY BACKGROUND --- */
+        .stars-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            background: transparent;
+            opacity: 0;
+            transition: opacity 2s ease;
+            z-index: 1;
+        }
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle var(--duration, 2s) infinite ease-in-out;
+        }
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        body.starry-night {
+            background: linear-gradient(135deg, #0b0c10 0%, #1f2833 100%) !important;
+        }
+        body.starry-night .stars-overlay {
+            opacity: 1;
+        }
+        
+        /* Glassmorphism Final Card Theme */
+        .box-card.glass-card {
+            background: rgba(255, 255, 255, 0.1) !important;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            color: #ffffff !important;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3) !important;
+        }
+        .box-card.glass-card h1 { color: #fff; text-shadow: 0 0 10px rgba(255,255,255,0.3); }
+        .box-card.glass-card p { color: #e0e0e0 !important; }
+
+        /* Game & Icon Assets */
+        #basket { width: 60px; height: 40px; font-size: 2.5rem; position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); user-select: none; pointer-events: none; }
+        .falling-orange { font-size: 2.2rem; position: absolute; top: -50px; user-select: none; }
+        #target-orange { font-size: 3rem; position: absolute; cursor: pointer; user-select: none; display: none; }
+        .score-board { font-size: 1.2rem; font-weight: bold; color: var(--dark-citrus); margin-bottom: 0.5rem; }
+        .letter-link { display: inline-block; margin: 1.5rem 0; font-size: 1.3rem; color: var(--primary-orange); font-weight: bold; }
+
+        .orange-icon { font-size: 4.5rem; animation: float 4s ease-in-out infinite; display: inline-block; margin-bottom: 1rem; }
         @keyframes float {
             0% { transform: translateY(0px) rotate(0deg); }
             50% { transform: translateY(-15px) rotate(10deg); }
             100% { transform: translateY(0px) rotate(0deg); }
         }
 
-        p {
-            font-size: 1.15rem;
-            line-height: 1.6;
-            color: #555;
-            margin-bottom: 1.5rem;
-        }
+        p { font-size: 1.15rem; line-height: 1.6; color: #555; margin-bottom: 1.5rem; }
 
-        /* Buttons */
+        /* Buttons Group */
         .btn {
             background-color: var(--primary-orange);
             color: white;
             border: none;
-            padding: 1rem 2.5rem;
+            padding: 0.9rem 2.2rem;
             font-size: 1.1rem;
             font-weight: bold;
             border-radius: 30px;
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 4px 10px rgba(255, 122, 0, 0.3);
-            margin-top: 1rem;
+            text-decoration: none;
+            display: inline-block;
         }
+        .btn:hover { background-color: var(--dark-citrus); transform: scale(1.05); }
+        .btn:disabled { background-color: #ccc; box-shadow: none; cursor: not-allowed; }
+        .canvas-btn-group { display: flex; gap: 10px; justify-content: center; }
 
-        .btn:hover {
-            background-color: var(--dark-citrus);
-            transform: scale(1.05);
-        }
-
-        .btn:disabled {
-            background-color: #ccc;
-            box-shadow: none;
-            cursor: not-allowed;
-        }
-
-        /* Slide Classes */
-        .slide-to-game { transform: translateX(-100vw); }
-        .slide-to-card { transform: translateX(-200vw); }
+        /* Slide Transforms */
+        .slide-to-game1     { transform: translateX(-100vw); }
+        .slide-to-letters   { transform: translateX(-200vw); }
+        .slide-to-game2     { transform: translateX(-300vw); }
+        .slide-to-letterpage{ transform: translateX(-400vw); }
+        .slide-to-game3     { transform: translateX(-500vw); }
+        .slide-to-fade2     { transform: translateX(-600vw); }
+        .slide-to-img1      { transform: translateX(-700vw); }
+        .slide-to-fade1     { transform: translateX(-800vw); }
+        .slide-to-img2      { transform: translateX(-900vw); }
+        .slide-to-cake      { transform: translateX(-1000vw); }
+        .slide-to-card      { transform: translateX(-1100vw); }
     </style>
 </head>
 <body>
 
+    <div class="stars-overlay" id="starsBg"></div>
+
     <div class="slider-wrapper" id="mainSlider">
         
-        <!-- PAGE 1: The Intro -->
         <section class="view-section">
             <div class="box-card">
                 <h2>Hi there,<br>Today seems to be your day isn't it? This is nothing too special but I hope you like it.</h2>
-                <button class="btn" onclick="goToGame()">Click here 🍊</button>
+                <button class="btn" onclick="goToGame1()">Click here 🍊</button>
             </div>
         </section>
 
-        <!-- PAGE 2: The Orange Catching Game -->
         <section class="view-section">
             <div class="box-card">
-                <h2>Catch 5 Oranges to unlock your message!</h2>
-                <div class="score-board">Oranges Caught: <span id="score">0</span> / 5</div>
-                
-                <div id="game-container">
-                    <div id="basket">🧺</div>
+                <h2>Before we proceed, Let's play a little smol game, It's not hard so dont worry!</h2>
+                <div class="score-board">Oranges Caught: <span id="score1">0</span> / 5</div>
+                <div id="game-container"><div id="basket">🧺</div></div>
+                <button class="btn" id="nextPageBtn1" disabled onclick="goToLetters()">Proceed 🎁</button>
+            </div>
+        </section>
+
+        <section class="view-section">
+            <div class="box-card">
+                <h2>Congrats on catching the oranges!! :3</h2>
+                <a href="https://docs.google.com/document/d/1KmZLBQ0N-VzsUe7ar0JYy8IZgnJpIm78SSTm_Vso1lE/edit?usp=sharing" target="_blank" class="letter-link">📄 Now click here for a surprise open letter 📜</a>
+                <p style="font-size: 0.95rem; color: #888;">(Come back here when you're done, There's more)</p>
+                <button class="btn" onclick="goToGame2()">Next Stage ➡️</button>
+            </div>
+        </section>
+
+        <section class="view-section">
+            <div class="box-card">
+                <h2>One last quick stage! Pop 24 oranges for your 24th birthday! 🎂</h2>
+                <div class="score-board">Oranges Popped: <span id="score2">0</span> / 24</div>
+                <div id="pop-container"><div id="target-orange" onclick="popOrange()">🍊</div></div>
+                <button class="btn" id="nextPageBtn2" disabled onclick="goToLetterPage()">Finish Game! 🏁</button>
+            </div>
+        </section>
+
+        <section class="view-section">
+            <div class="box-card">
+                <h2>A little note for you ✍️</h2>
+                <div class="text-letter-box">
+                    <p>Hey,</p>
+                    <p>Im sorry if this whole thing was half-assed, I never imagined that planning this much while having work will be hard to juggle but here it is, finally.
+And since it was rushed, I had AI to make the website ,,, to be honest.I still have 2 final gift for you. So after you finished with this block of text. I hope you also take a look at them.</p>
+                    <p>You deserve all the happy, bright, and sweet moments today and every day after too . </p>
+                    <p>Yours(jk, unless?), JC 🧡</p>
                 </div>
-
-                <button class="btn" id="nextPageBtn" disabled onclick="goToCard()">Reveal Message 🎁</button>
+                <button class="btn" onclick="goToGame3()">Continue ➡️</button>
             </div>
         </section>
 
-        <!-- PAGE 3: The Main Birthday Card -->
         <section class="view-section">
             <div class="box-card">
+                <h2>Filler part, draw whatever you want and make sure you take a screenshot :3 ! 🎨🎨</h2>
+                <div id="canvas-container">
+                    <canvas id="paintCanvas"></canvas>
+                </div>
+                <div class="canvas-btn-group">
+                    <button class="btn" style="background:#888;" onclick="clearCanvas()">Clear 🧹</button>
+                    <button class="btn" style="background:var(--leaf-green);" onclick="goToFadeSection2()">All Done! 🧡</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="view-section">
+            <div class="box-card" style="padding: 4rem 2rem;">
+                <div class="fade-text-container">
+                    <div id="fadingText2" class="fading-text-style">Are you ready?</div>
+                </div>
+                <button class="btn hidden-reveal-btn" id="fadeRevealBtn2" onclick="goToImg1()">See Photo 👀</button>
+            </div>
+        </section>
+
+        <section class="view-section">
+            <div class="box-card">
+                <h2>お誕生日おめでとう！！！</h2>
+                <div class="media-container">
+                    <img src="734218666_122112354573317475_8237009307609056869_n.jpg" alt="Special Memory" class="display-img">
+                </div>
+                <button class="btn" onclick="goToFadeSection1()">Next Page ➡️</button>
+            </div>
+        </section>
+
+        <section class="view-section">
+            <div class="box-card" style="padding: 4rem 2rem;">
+                <div class="fade-text-container">
+                    <div id="fadingText1" class="fading-text-style">That might have been an awful sight for you to see</div>
+                </div>
+                <button class="btn hidden-reveal-btn" id="fadeRevealBtn1" onclick="goToImg2()">Look At This Instead ✨</button>
+            </div>
+        </section>
+
+        <section class="view-section">
+            <div class="box-card">
+                <h2>Tadaaa! 🎉</h2>
+                <div class="media-container">
+                    <img src="9865.png" alt="Commissioned Artwork" class="display-img">
+                    <img src="9871.png" alt="Commissioned Artwork" class="display-img">
+                </div>
+                <button class="btn" onclick="goToCakePage()">Next Page ➡️</button>
+            </div>
+        </section>
+
+        <section class="view-section">
+            <div class="box-card">
+                <h2>Make a wish and blow out the candle! 🎂✨</h2>
+                <div class="cake-container">
+                    <div class="cake">
+                        <div class="candle">
+                            <div class="flame" id="cakeFlame"></div>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn" id="blowCandleBtn" onclick="blowCandle()">Make a Wish ✨</button>
+            </div>
+        </section>
+
+        <section class="view-section">
+            <div class="box-card" id="finalCardBox">
                 <div class="orange-icon">🍊<span style="color:var(--leaf-green)">🍃</span></div>
                 <header>
-                    <h1>Have a Zesty Birthday!</h1>
-                    <div class="subtitle">Wishing you a year full of sunshine and sweetness</div>
+                    <h1>Have a fan-Taka-stic birthday!</h1>
+                    <p style="font-size:1.3rem; margin-bottom:1.5rem;">Wishing you a year full of sunshine and sweetness</p>
                 </header>
                 <p>
                     All things here were kinda rushed since I had little time, and honestly I was spending my weekends off trying to cram ideas for your birthday instead so.. I hope you like it even a little bit. 🧡
+                </p>
+                <p>
+                   Now then, you are free to ask every question you wanna ask, and I will answer them truthfully.🧡
                 </p>
             </div>
         </section>
@@ -217,116 +436,171 @@
 
     <script>
         const slider = document.getElementById('mainSlider');
+        
+        // Active Elements Handles
         const gameContainer = document.getElementById('game-container');
         const basket = document.getElementById('basket');
-        const scoreDisplay = document.getElementById('score');
-        const nextPageBtn = document.getElementById('nextPageBtn');
+        const scoreDisplay1 = document.getElementById('score1');
+        const nextPageBtn1 = document.getElementById('nextPageBtn1');
+        const popContainer = document.getElementById('pop-container');
+        const targetOrange = document.getElementById('target-orange');
+        const scoreDisplay2 = document.getElementById('score2');
+        const nextPageBtn2 = document.getElementById('nextPageBtn2');
 
-        let score = 0;
-        let gameActive = false;
-        let fallingInterval;
-        let orangeElement = null;
-        let orangeX = 0;
-        let orangeY = -50;
-        let orangeSpeed = 4;
+        // Canvas Setup
+        const canvas = document.getElementById('paintCanvas');
+        const ctx = canvas.getContext('2d');
+        let isDrawing = false;
 
-        // Slide navigation
-        function goToGame() {
-            slider.className = 'slider-wrapper slide-to-game';
-            startGame();
-        }
+        // Fading Sequences Elements
+        const fadingTextEl1 = document.getElementById('fadingText1');
+        const fadeRevealBtn1 = document.getElementById('fadeRevealBtn1');
+        const phrases1 = ["That might have been an awful sight for you to see", "That's why, I thought of commissioning an artist", "I hope you'll like their work too"];
+        
+        const fadingTextEl2 = document.getElementById('fadingText2');
+        const fadeRevealBtn2 = document.getElementById('fadeRevealBtn2');
+        const phrases2 = ["Are you ready?", "It might be cringe", "But it's the best I could do"];
 
-        function goToCard() {
-            slider.className = 'slider-wrapper slide-to-card';
-            gameActive = false;
-            clearInterval(fallingInterval);
-        }
+        // Game Trackers
+        let score1 = 0, gameActive1 = false, fallingInterval, orangeElement = null, orangeX = 0, orangeY = -50, orangeSpeed = 4;
+        let score2 = 0, gameActive2 = false;
 
-        // Mouse/Touch controls for the basket
+        // Navigation Controls
+        function goToGame1()       { slider.className = 'slider-wrapper slide-to-game1'; startGame1(); }
+        function goToLetters()     { slider.className = 'slider-wrapper slide-to-letters'; gameActive1 = false; clearInterval(fallingInterval); }
+        function goToGame2()       { slider.className = 'slider-wrapper slide-to-game2'; startGame2(); }
+        function goToLetterPage()  { slider.className = 'slider-wrapper slide-to-letterpage'; }
+        function goToGame3()       { slider.className = 'slider-wrapper slide-to-game3'; resizeCanvas(); setupCanvasBrush(); }
+        function goToFadeSection2(){ slider.className = 'slider-wrapper slide-to-fade2'; startFadingSequence(fadingTextEl2, fadeRevealBtn2, phrases2); }
+        function goToImg1()        { slider.className = 'slider-wrapper slide-to-img1'; }
+        function goToFadeSection1(){ slider.className = 'slider-wrapper slide-to-fade1'; startFadingSequence(fadingTextEl1, fadeRevealBtn1, phrases1); }
+        function goToImg2()        { slider.className = 'slider-wrapper slide-to-img2'; }
+        function goToCakePage()    { slider.className = 'slider-wrapper slide-to-cake'; }
+        function goToCard()        { slider.className = 'slider-wrapper slide-to-card'; }
+
+        // Game 1 Mechanisms (Catch)
         gameContainer.addEventListener('mousemove', (e) => {
-            const rect = gameContainer.getBoundingClientRect();
-            let relativeX = e.clientX - rect.left;
-            // Bound basket inside container
-            if (relativeX < 30) relativeX = 30;
-            if (relativeX > rect.width - 30) relativeX = rect.width - 30;
-            basket.style.left = relativeX + 'px';
+            let relativeX = e.clientX - gameContainer.getBoundingClientRect().left;
+            basket.style.left = Math.max(30, Math.min(gameContainer.clientWidth - 30, relativeX)) + 'px';
         });
-
         gameContainer.addEventListener('touchmove', (e) => {
-            const rect = gameContainer.getBoundingClientRect();
-            let relativeX = e.touches[0].clientX - rect.left;
-            if (relativeX < 30) relativeX = 30;
-            if (relativeX > rect.width - 30) relativeX = rect.width - 30;
-            basket.style.left = relativeX + 'px';
+            let relativeX = e.touches[0].clientX - gameContainer.getBoundingClientRect().left;
+            basket.style.left = Math.max(30, Math.min(gameContainer.clientWidth - 30, relativeX)) + 'px';
         });
 
-        // Game mechanics
-        function startGame() {
-            gameActive = true;
-            spawnOrange();
-            fallingInterval = setInterval(updateGame, 20);
+        function startGame1() { gameActive1 = true; spawnOrange1(); fallingInterval = setInterval(updateGame1, 20); }
+        function spawnOrange1() {
+            if (!gameActive1) return; if (orangeElement) orangeElement.remove();
+            orangeElement = document.createElement('div'); orangeElement.className = 'falling-orange'; orangeElement.innerText = '🍊';
+            orangeX = Math.random() * (gameContainer.clientWidth - 40) + 10; orangeY = -40;
+            orangeElement.style.left = orangeX + 'px'; orangeElement.style.top = orangeY + 'px'; gameContainer.appendChild(orangeElement);
         }
-
-        function spawnOrange() {
-            if (!gameActive) return;
-            
-            if (orangeElement) orangeElement.remove();
-
-            orangeElement = document.createElement('div');
-            orangeElement.className = 'falling-orange';
-            orangeElement.innerText = '🍊';
-            
-            const containerWidth = gameContainer.clientWidth;
-            orangeX = Math.random() * (containerWidth - 40) + 10;
-            orangeY = -40;
-            
-            orangeElement.style.left = orangeX + 'px';
-            orangeElement.style.top = orangeY + 'px';
-            gameContainer.appendChild(orangeElement);
-        }
-
-        function updateGame() {
-            if (!gameActive || !orangeElement) return;
-
-            // Move orange down
-            orangeY += orangeSpeed;
-            orangeElement.style.top = orangeY + 'px';
-
-            const containerHeight = gameContainer.clientHeight;
+        function updateGame1() {
+            if (!gameActive1 || !orangeElement) return; orangeY += orangeSpeed; orangeElement.style.top = orangeY + 'px';
             const basketX = parseFloat(basket.style.left) || gameContainer.clientWidth / 2;
-
-            // Check if orange hits the bottom zone (where basket sits)
-            if (orangeY >= containerHeight - 50 && orangeY <= containerHeight - 20) {
-                // Collision detection between orange center and basket center
+            if (orangeY >= gameContainer.clientHeight - 50 && orangeY <= gameContainer.clientHeight - 20) {
                 if (Math.abs(orangeX - (basketX - 15)) < 35) {
-                    score++;
-                    scoreDisplay.innerText = score;
-                    
-                    if (score >= 5) {
-                        endGame();
-                    } else {
-                        orangeSpeed += 0.5; // Make it slightly trickier
-                        spawnOrange();
-                    }
+                    score1++; scoreDisplay1.innerText = score1;
+                    if (score1 >= 5) {
+                        gameActive1 = false; clearInterval(fallingInterval); orangeElement.remove();
+                        scoreDisplay1.innerText = "5/5 Complete! 🎉"; nextPageBtn1.removeAttribute('disabled'); nextPageBtn1.style.background = 'var(--leaf-green)';
+                    } else { orangeSpeed += 0.5; spawnOrange1(); }
                 }
             }
+            if (orangeY > gameContainer.clientHeight) spawnOrange1();
+        }
 
-            // Reset orange if it falls past basket
-            if (orangeY > containerHeight) {
-                spawnOrange();
+        // Game 2 Mechanisms (Pop)
+        function startGame2() { gameActive2 = true; targetOrange.style.display = 'block'; moveOrange2(); }
+        function moveOrange2() {
+            if (!gameActive2) return;
+            targetOrange.style.left = Math.random() * (popContainer.clientWidth - 50) + 'px';
+            targetOrange.style.top = Math.random() * (popContainer.clientHeight - 60) + 'px';
+        }
+        function popOrange() {
+            if (!gameActive2) return; score2++; scoreDisplay2.innerText = score2;
+            if (score2 >= 24) {
+                gameActive2 = false; targetOrange.style.display = 'none'; scoreDisplay2.innerText = "24/24! Happy Birthday! 🎉🎈";
+                nextPageBtn2.removeAttribute('disabled'); nextPageBtn2.style.background = 'var(--leaf-green)';
+            } else { moveOrange2(); }
+        }
+
+        // Canvas Drawing Setup
+        function resizeCanvas() { canvas.width = canvas.parentElement.clientWidth; canvas.height = canvas.parentElement.clientHeight; }
+        function setupCanvasBrush() { ctx.strokeStyle = '#ff7a00'; ctx.lineWidth = 4; ctx.lineCap = 'round'; ctx.lineJoin = 'round'; }
+        function getMousePos(canvasDom, touchOrMouseEvent) {
+            const rect = canvasDom.getBoundingClientRect();
+            if(touchOrMouseEvent.touches && touchOrMouseEvent.touches.length > 0) {
+                return { x: touchOrMouseEvent.touches[0].clientX - rect.left, y: touchOrMouseEvent.touches[0].clientY - rect.top };
+            }
+            return { x: touchOrMouseEvent.clientX - rect.left, y: touchOrMouseEvent.clientY - rect.top };
+        }
+        function draw(e) { if (!isDrawing) return; const pos = getMousePos(canvas, e); ctx.lineTo(pos.x, pos.y); ctx.stroke(); }
+
+        canvas.addEventListener('mousedown', (e) => { isDrawing = true; ctx.beginPath(); const pos = getMousePos(canvas, e); ctx.moveTo(pos.x, pos.y); });
+        canvas.addEventListener('mousemove', draw);
+        canvas.addEventListener('mouseup', () => isDrawing = false);
+        canvas.addEventListener('mouseleave', () => isDrawing = false);
+        canvas.addEventListener('touchstart', (e) => { isDrawing = true; ctx.beginPath(); const pos = getMousePos(canvas, e); ctx.moveTo(pos.x, pos.y); });
+        canvas.addEventListener('touchmove', draw);
+        canvas.addEventListener('touchend', () => isDrawing = false);
+        function clearCanvas() { ctx.clearRect(0, 0, canvas.width, canvas.height); }
+
+        // Fading Sequence Engine
+        function startFadingSequence(textElement, buttonElement, arrayPhrases) {
+            let index = 0;
+            textElement.style.opacity = 0;
+            buttonElement.style.opacity = 0;
+            buttonElement.style.pointerEvents = 'none';
+
+            function cycle() {
+                if (index < arrayPhrases.length) {
+                    textElement.innerText = arrayPhrases[index];
+                    textElement.style.opacity = 1;
+                    setTimeout(() => {
+                        textElement.style.opacity = 0;
+                        index++;
+                        setTimeout(cycle, 600);
+                    }, 1800);
+                } else {
+                    buttonElement.style.opacity = 1;
+                    buttonElement.style.pointerEvents = 'auto';
+                }
+            }
+            setTimeout(cycle, 400);
+        }
+
+        // --- CAKE BLOWOUT & NIGHT SKY INITIALIZATION ---
+        function generateStars() {
+            const container = document.getElementById('starsBg');
+            container.innerHTML = ''; 
+            for (let i = 0; i < 75; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.width = Math.random() * 3 + 1 + 'px';
+                star.style.height = star.style.width;
+                star.style.left = Math.random() * 100 + 'vw';
+                star.style.top = Math.random() * 100 + 'vh';
+                star.style.setProperty('--duration', Math.random() * 3 + 1.5 + 's');
+                container.appendChild(star);
             }
         }
 
-        function endGame() {
-            gameActive = false;
-            clearInterval(fallingInterval);
-            if (orangeElement) orangeElement.remove();
+        function blowCandle() {
+            document.getElementById('cakeFlame').style.display = 'none';
+            const btn = document.getElementById('blowCandleBtn');
+            btn.innerText = "Wish Made! 🌟";
+            btn.style.background = 'var(--leaf-green)';
             
-            // Success changes!
-            scoreDisplay.innerText = "5/5 Complete! 🎉";
-            nextPageBtn.removeAttribute('disabled');
-            nextPageBtn.style.background = 'var(--leaf-green)';
-            nextPageBtn.innerText = "Open Your Message 🎁";
+            generateStars();
+
+            setTimeout(() => {
+                goToCard();
+                setTimeout(() => {
+                    document.body.classList.add('starry-night');
+                    document.getElementById('finalCardBox').classList.add('glass-card');
+                }, 400);
+            }, 1200);
         }
     </script>
 </body>
