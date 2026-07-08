@@ -67,6 +67,30 @@
             line-height: 1.4;
         }
 
+        /* Login Input Field Styling */
+        .password-input {
+            width: 100%;
+            padding: 0.9rem 1.2rem;
+            font-size: 1.1rem;
+            border: 2px solid var(--soft-orange);
+            border-radius: 30px;
+            outline: none;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            transition: border-color 0.3s;
+            background-color: #fffcf9;
+        }
+        .password-input:focus {
+            border-color: var(--primary-orange);
+        }
+        .error-message {
+            color: #e63946;
+            font-size: 0.95rem;
+            margin-top: -1rem;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
         /* Fading Text Elements */
         .fade-text-container {
             height: 90px;
@@ -298,17 +322,22 @@
 </head>
 <body>
 
+    <!-- Starry Overlay used at the final layout section -->
     <div class="stars-overlay" id="starsBg"></div>
 
     <div class="slider-wrapper" id="mainSlider">
         
+        <!-- PAGE 1: Secure Login Screen -->
         <section class="view-section">
             <div class="box-card">
-                <h2>Hi there,<br>Today seems to be your day isn't it? This is nothing too special but I hope you like it.</h2>
-                <button class="btn" onclick="goToGame1()">Click here 🍊</button>
+                <h2>Hi there,<br>Today seems to be your day, isn't it? Please enter the password to begin. 🔑</h2>
+                <input type="password" id="loginPass" class="password-input" placeholder="Enter password here..." onkeydown="if(event.key === 'Enter') checkPassword()">
+                <div id="errorMsg" class="error-message">Incorrect password. Please try again! 🍊</div>
+                <button class="btn" onclick="checkPassword()">Unlock 🔓</button>
             </div>
         </section>
 
+        <!-- PAGE 2: Game 1 (Catching) -->
         <section class="view-section">
             <div class="box-card">
                 <h2>Before we proceed, Let's play a little smol game, It's not hard so dont worry!</h2>
@@ -318,6 +347,7 @@
             </div>
         </section>
 
+        <!-- PAGE 3: Letters -->
         <section class="view-section">
             <div class="box-card">
                 <h2>Congrats on catching the oranges!! :3</h2>
@@ -327,6 +357,7 @@
             </div>
         </section>
 
+        <!-- PAGE 4: Game 2 (Popping) -->
         <section class="view-section">
             <div class="box-card">
                 <h2>One last quick stage! Pop 24 oranges for your 24th birthday! 🎂</h2>
@@ -336,6 +367,7 @@
             </div>
         </section>
 
+        <!-- PAGE 5: Little Note/Letter Box -->
         <section class="view-section">
             <div class="box-card">
                 <h2>A little note for you ✍️</h2>
@@ -350,6 +382,7 @@ And since it was rushed, I had AI to make the website ,,, to be honest.I still h
             </div>
         </section>
 
+        <!-- PAGE 6: Game 3 (Draw Anything) -->
         <section class="view-section">
             <div class="box-card">
                 <h2>Filler part, draw whatever you want and make sure you take a screenshot :3 ! 🎨🎨</h2>
@@ -363,6 +396,7 @@ And since it was rushed, I had AI to make the website ,,, to be honest.I still h
             </div>
         </section>
 
+        <!-- PAGE 7: Fading Text 2 -->
         <section class="view-section">
             <div class="box-card" style="padding: 4rem 2rem;">
                 <div class="fade-text-container">
@@ -372,6 +406,7 @@ And since it was rushed, I had AI to make the website ,,, to be honest.I still h
             </div>
         </section>
 
+        <!-- PAGE 8: Image Reveal 1 -->
         <section class="view-section">
             <div class="box-card">
                 <h2>お誕生日おめでとう！！！</h2>
@@ -382,6 +417,7 @@ And since it was rushed, I had AI to make the website ,,, to be honest.I still h
             </div>
         </section>
 
+        <!-- PAGE 9: Fading Text 1 -->
         <section class="view-section">
             <div class="box-card" style="padding: 4rem 2rem;">
                 <div class="fade-text-container">
@@ -391,6 +427,7 @@ And since it was rushed, I had AI to make the website ,,, to be honest.I still h
             </div>
         </section>
 
+        <!-- PAGE 10: Image Reveal 2 -->
         <section class="view-section">
             <div class="box-card">
                 <h2>Tadaaa! 🎉</h2>
@@ -402,6 +439,7 @@ And since it was rushed, I had AI to make the website ,,, to be honest.I still h
             </div>
         </section>
 
+        <!-- PAGE 11: The Birthday Cake Blowout -->
         <section class="view-section">
             <div class="box-card">
                 <h2>Make a wish and blow out the candle! 🎂✨</h2>
@@ -416,6 +454,7 @@ And since it was rushed, I had AI to make the website ,,, to be honest.I still h
             </div>
         </section>
 
+        <!-- PAGE 12: Final Birthday Card -->
         <section class="view-section">
             <div class="box-card" id="finalCardBox">
                 <div class="orange-icon">🍊<span style="color:var(--leaf-green)">🍃</span></div>
@@ -464,6 +503,20 @@ And since it was rushed, I had AI to make the website ,,, to be honest.I still h
         // Game Trackers
         let score1 = 0, gameActive1 = false, fallingInterval, orangeElement = null, orangeX = 0, orangeY = -50, orangeSpeed = 4;
         let score2 = 0, gameActive2 = false;
+
+        // Secure Gate Checker
+        function checkPassword() {
+            const userInput = document.getElementById('loginPass').value.trim();
+            const correctPassword = "The Dissapearance of the Fox";
+            const errorMsg = document.getElementById('errorMsg');
+
+            if (userInput === correctPassword) {
+                errorMsg.style.display = 'none';
+                goToGame1();
+            } else {
+                errorMsg.style.display = 'block';
+            }
+        }
 
         // Navigation Controls
         function goToGame1()       { slider.className = 'slider-wrapper slide-to-game1'; startGame1(); }
