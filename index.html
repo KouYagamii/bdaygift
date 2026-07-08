@@ -29,10 +29,10 @@
             transition: background 1.5s ease;
         }
 
-        /* 12 Sections Wide */
+        /* 13 Sections Wide */
         .slider-wrapper {
             display: flex;
-            width: 1200vw; 
+            width: 1300vw; 
             height: 100vh;
             transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
@@ -307,17 +307,18 @@
         .canvas-btn-group { display: flex; gap: 10px; justify-content: center; }
 
         /* Slide Transforms */
-        .slide-to-game1     { transform: translateX(-100vw); }
-        .slide-to-letters   { transform: translateX(-200vw); }
-        .slide-to-game2     { transform: translateX(-300vw); }
-        .slide-to-letterpage{ transform: translateX(-400vw); }
-        .slide-to-game3     { transform: translateX(-500vw); }
-        .slide-to-fade2     { transform: translateX(-600vw); }
-        .slide-to-img1      { transform: translateX(-700vw); }
-        .slide-to-fade1     { transform: translateX(-800vw); }
-        .slide-to-img2      { transform: translateX(-900vw); }
-        .slide-to-cake      { transform: translateX(-1000vw); }
-        .slide-to-card      { transform: translateX(-1100vw); }
+        .slide-to-intro      { transform: translateX(-100vw); }
+        .slide-to-game1     { transform: translateX(-200vw); }
+        .slide-to-letters   { transform: translateX(-300vw); }
+        .slide-to-game2     { transform: translateX(-400vw); }
+        .slide-to-letterpage{ transform: translateX(-500vw); }
+        .slide-to-game3     { transform: translateX(-600vw); }
+        .slide-to-fade2     { transform: translateX(-700vw); }
+        .slide-to-img1      { transform: translateX(-800vw); }
+        .slide-to-fade1     { transform: translateX(-900vw); }
+        .slide-to-img2      { transform: translateX(-1000vw); }
+        .slide-to-cake      { transform: translateX(-1100vw); }
+        .slide-to-card      { transform: translateX(-1200vw); }
     </style>
 </head>
 <body>
@@ -330,14 +331,22 @@
         <!-- PAGE 1: Secure Login Screen -->
         <section class="view-section">
             <div class="box-card">
-                <h2>Hi there,<br>Today seems to be your day, isn't it? Please enter the password to begin. 🔑</h2>
+                <h2>Security Gate 🔐<br>Please enter the secret password to continue.</h2>
                 <input type="password" id="loginPass" class="password-input" placeholder="Enter password here..." onkeydown="if(event.key === 'Enter') checkPassword()">
                 <div id="errorMsg" class="error-message">Incorrect password. Please try again! 🍊</div>
                 <button class="btn" onclick="checkPassword()">Unlock 🔓</button>
             </div>
         </section>
 
-        <!-- PAGE 2: Game 1 (Catching) -->
+        <!-- PAGE 2: Original Intro Screen -->
+        <section class="view-section">
+            <div class="box-card">
+                <h2>Hi there,<br>Today seems to be your day isn't it? This is nothing too special but I hope you like it.</h2>
+                <button class="btn" onclick="goToGame1()">Click here 🍊</button>
+            </div>
+        </section>
+
+        <!-- PAGE 3: Game 1 (Catching) -->
         <section class="view-section">
             <div class="box-card">
                 <h2>Before we proceed, Let's play a little smol game, It's not hard so dont worry!</h2>
@@ -347,7 +356,7 @@
             </div>
         </section>
 
-        <!-- PAGE 3: Letters -->
+        <!-- PAGE 4: Letters -->
         <section class="view-section">
             <div class="box-card">
                 <h2>Congrats on catching the oranges!! :3</h2>
@@ -357,7 +366,7 @@
             </div>
         </section>
 
-        <!-- PAGE 4: Game 2 (Popping) -->
+        <!-- PAGE 5: Game 2 (Popping) -->
         <section class="view-section">
             <div class="box-card">
                 <h2>One last quick stage! Pop 24 oranges for your 24th birthday! 🎂</h2>
@@ -367,7 +376,7 @@
             </div>
         </section>
 
-        <!-- PAGE 5: Little Note/Letter Box -->
+        <!-- PAGE 6: Little Note/Letter Box -->
         <section class="view-section">
             <div class="box-card">
                 <h2>A little note for you ✍️</h2>
@@ -382,7 +391,7 @@ And since it was rushed, I had AI to make the website ,,, to be honest.I still h
             </div>
         </section>
 
-        <!-- PAGE 6: Game 3 (Draw Anything) -->
+        <!-- PAGE 7: Game 3 (Draw Anything) -->
         <section class="view-section">
             <div class="box-card">
                 <h2>Filler part, draw whatever you want and make sure you take a screenshot :3 ! 🎨🎨</h2>
@@ -396,7 +405,7 @@ And since it was rushed, I had AI to make the website ,,, to be honest.I still h
             </div>
         </section>
 
-        <!-- PAGE 7: Fading Text 2 -->
+        <!-- PAGE 8: Fading Text 2 -->
         <section class="view-section">
             <div class="box-card" style="padding: 4rem 2rem;">
                 <div class="fade-text-container">
@@ -406,7 +415,7 @@ And since it was rushed, I had AI to make the website ,,, to be honest.I still h
             </div>
         </section>
 
-        <!-- PAGE 8: Image Reveal 1 -->
+        <!-- PAGE 9: Image Reveal 1 -->
         <section class="view-section">
             <div class="box-card">
                 <h2>お誕生日おめでとう！！！</h2>
@@ -417,7 +426,7 @@ And since it was rushed, I had AI to make the website ,,, to be honest.I still h
             </div>
         </section>
 
-        <!-- PAGE 9: Fading Text 1 -->
+        <!-- PAGE 10: Fading Text 1 -->
         <section class="view-section">
             <div class="box-card" style="padding: 4rem 2rem;">
                 <div class="fade-text-container">
@@ -427,7 +436,7 @@ And since it was rushed, I had AI to make the website ,,, to be honest.I still h
             </div>
         </section>
 
-        <!-- PAGE 10: Image Reveal 2 -->
+        <!-- PAGE 11: Image Reveal 2 -->
         <section class="view-section">
             <div class="box-card">
                 <h2>Tadaaa! 🎉</h2>
@@ -439,7 +448,7 @@ And since it was rushed, I had AI to make the website ,,, to be honest.I still h
             </div>
         </section>
 
-        <!-- PAGE 11: The Birthday Cake Blowout -->
+        <!-- PAGE 12: The Birthday Cake Blowout -->
         <section class="view-section">
             <div class="box-card">
                 <h2>Make a wish and blow out the candle! 🎂✨</h2>
@@ -454,10 +463,10 @@ And since it was rushed, I had AI to make the website ,,, to be honest.I still h
             </div>
         </section>
 
-        <!-- PAGE 12: Final Birthday Card -->
+        <!-- PAGE 13: Final Birthday Card -->
         <section class="view-section">
             <div class="box-card" id="finalCardBox">
-                <div class="orange-icon">🍊<span style="color:var(--leaf-green)">🍃</span></div>
+                <div class="orange-icon">Camp 🍊<span style="color:var(--leaf-green)">🍃</span></div>
                 <header>
                     <h1>Have a fan-Taka-stic birthday!</h1>
                     <p style="font-size:1.3rem; margin-bottom:1.5rem;">Wishing you a year full of sunshine and sweetness</p>
@@ -512,13 +521,14 @@ And since it was rushed, I had AI to make the website ,,, to be honest.I still h
 
             if (userInput === correctPassword) {
                 errorMsg.style.display = 'none';
-                goToGame1();
+                goToIntro();
             } else {
                 errorMsg.style.display = 'block';
             }
         }
 
         // Navigation Controls
+        function goToIntro()       { slider.className = 'slider-wrapper slide-to-intro'; }
         function goToGame1()       { slider.className = 'slider-wrapper slide-to-game1'; startGame1(); }
         function goToLetters()     { slider.className = 'slider-wrapper slide-to-letters'; gameActive1 = false; clearInterval(fallingInterval); }
         function goToGame2()       { slider.className = 'slider-wrapper slide-to-game2'; startGame2(); }
